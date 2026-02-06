@@ -1,0 +1,135 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-a-school-themed-landing-home-experience-that-lets-the-user-choose-one-of-four-study-modes-math-help-social-studies-help-science-help-and-language-arts-help-and-then-enter-the-chatbot-interface-for-the-selected-mode",
+      "featureTitle": "Create a school-themed landing/home experience that lets the user choose one of four study modes: Math Help, Social Studies Help, Science Help, and Language Arts Help, and then enter the chatbot interface for the selected mode.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/modes/modeTypes.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-chatbot-ui-with-a-message-thread-user-text-input-send-action-and-basic-chat-affordances-loading-state-error-state-clear-conversation-that-works-for-all-four-modes",
+      "featureTitle": "Implement a chatbot UI with a message thread, user text input, send action, and basic chat affordances (loading state, error state, clear conversation) that works for all four modes.",
+      "files": [
+        "frontend/src/components/chat/ChatComposer.tsx",
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/components/chat/ChatThread.tsx",
+        "frontend/src/hooks/useChat.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-each-mode-s-bot-behavior-unique-by-providing-mode-specific-tutoring-patterns-and-structured-outputs-math-help-step-by-step-problem-solving-format-social-studies-help-timeline-causes-effects-and-key-terms-format-science-help-hypothesis-evidence-conclusion-format-and-safety-reminders-language-arts-help-thesis-outline-grammar-and-revision-checklist-format",
+      "featureTitle": "Make each mode’s bot behavior unique by providing mode-specific tutoring patterns and structured outputs: Math Help (step-by-step problem solving format), Social Studies Help (timeline/causes-effects and key terms format), Science Help (hypothesis/evidence/conclusion format and safety reminders), Language Arts Help (thesis/outline/grammar and revision checklist format).",
+      "files": [
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/components/chat/QuickPrompts.tsx",
+        "frontend/src/components/modes/modeTypes.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-persist-per-user-chat-history-per-mode-in-the-backend-so-that-returning-to-a-mode-restores-the-prior-conversation-for-that-user-based-on-internet-identity-principal",
+      "featureTitle": "Persist per-user chat history per mode in the backend so that returning to a mode restores the prior conversation for that user (based on Internet Identity principal).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/hooks/useChat.ts",
+        "frontend/src/hooks/useUserProfile.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-cohesive-school-vibe-visual-theme-across-the-app-colors-typography-layout-and-components-and-keep-it-consistent-across-home-and-chat-screens",
+      "featureTitle": "Apply a cohesive “school vibe” visual theme across the app (colors, typography, layout, and components) and keep it consistent across home and chat screens.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/SchoolLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-generated-static-image-assets-that-support-the-school-theme-and-render-them-in-the-ui-from-frontend-public-assets-generated-do-not-fetch-images-from-the-backend",
+      "featureTitle": "Add generated static image assets that support the school theme and render them in the UI from frontend/public/assets/generated (do not fetch images from the backend).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/components/layout/SchoolLayout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "frontend/src/App.tsx": "Main application component managing mode selection state and rendering either the home page or chat page based on user selection.",
+  "frontend/src/pages/HomePage.tsx": "Landing page displaying four subject mode cards (Math, Social Studies, Science, Language Arts) with icons and descriptions for mode selection.",
+  "frontend/src/components/chat/ChatPage.tsx": "Complete chat interface for a selected mode, including header with mascot, message thread, quick prompts, input composer, and clear conversation functionality.",
+  "frontend/src/components/chat/ChatThread.tsx": "Renders chronological message list with distinct styling for user and assistant messages, including avatars.",
+  "frontend/src/components/chat/ChatComposer.tsx": "Text input component with send button and Enter-to-send functionality for composing chat messages.",
+  "frontend/src/components/chat/QuickPrompts.tsx": "Displays mode-specific quick prompt buttons that insert suggested text into the chat input.",
+  "frontend/src/components/modes/modeTypes.ts": "Defines mode metadata (titles, descriptions, welcome messages) and quick prompts for each of the four subject modes.",
+  "frontend/src/components/layout/SchoolLayout.tsx": "Shared layout wrapper providing header with banner image, login button, notebook texture background, and footer with attribution.",
+  "frontend/src/components/auth/LoginButton.tsx": "Internet Identity login/logout button with loading states and query cache clearing on logout.",
+  "frontend/src/components/auth/ProfileSetupModal.tsx": "Modal dialog for first-time users to enter their name after authentication, with proper loading state handling and non-dismissible dialog using showCloseButton prop.",
+  "frontend/src/hooks/useUserProfile.ts": "React Query hooks for fetching and saving user profile data with proper actor dependency handling.",
+  "frontend/src/hooks/useChat.ts": "Custom hook managing chat state, message sending, history loading for authenticated users, and in-memory storage for guests.",
+  "frontend/src/index.css": "Global styles with school-themed OKLCH color system featuring chalkboard green, pencil yellow, and notebook blue for both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with school-themed colors, custom shadows, and font families for cohesive design system."
+}

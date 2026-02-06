@@ -1,0 +1,167 @@
+{
+  "kind": "build_request",
+  "title": "School-themed study helper chatbot with subject-specific modes",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create a school-themed landing/home experience that lets the user choose one of four study modes: Math Help, Social Studies Help, Science Help, and Language Arts Help, and then enter the chatbot interface for the selected mode.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Make an App That has an AI bot wiht different modes such as Math Help, Social Studies Help, And Science Help,  And Language Arts Help."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Home screen shows four clearly labeled mode cards/buttons: Math Help, Social Studies Help, Science Help, Language Arts Help.",
+        "Selecting a mode routes (or transitions) into a chat screen with the chosen mode visibly indicated.",
+        "User can switch modes from within the app without a full page refresh (e.g., via a mode switcher/menu)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement a chatbot UI with a message thread, user text input, send action, and basic chat affordances (loading state, error state, clear conversation) that works for all four modes.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Make an App That has an AI bot..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Chat view displays messages in chronological order with distinct styling for user vs bot.",
+        "User can type a message and send via button and Enter key.",
+        "While awaiting a response, the UI shows a loading indicator and disables duplicate sends.",
+        "If a request fails, an error message is displayed and the user can retry.",
+        "User can clear the current conversation for the active mode."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Add backend support for subject-specific chatbot responses by implementing a single Motoko canister API that accepts: selected mode, user message text, and (optionally) conversation context; returns a text response tailored to that mode.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Make them all unque to help with that certain type"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes an update method (chat) that takes (mode, message, context) and returns a response string.",
+        "Responses differ by mode (Math vs Social Studies vs Science vs Language Arts) using mode-specific guidance and tone.",
+        "Backend returns a safe fallback response when it cannot match/answer (e.g., asks clarifying question and suggests what details to provide).",
+        "Backend validates mode and message (non-empty), returning a user-friendly error for invalid inputs."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Make each mode’s bot behavior unique by providing mode-specific tutoring patterns and structured outputs: Math Help (step-by-step problem solving format), Social Studies Help (timeline/causes-effects and key terms format), Science Help (hypothesis/evidence/conclusion format and safety reminders), Language Arts Help (thesis/outline/grammar and revision checklist format).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Make them all unque to help with that certain type"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Math Help responses use a consistent step-by-step structure (e.g., Given/Find, Steps, Final Answer) and encourage showing work.",
+        "Social Studies Help responses use a structure that can include dates/periods, key terms, and cause/effect or compare/contrast where appropriate.",
+        "Science Help responses use a structure that can include definitions, variables, hypothesis/evidence, and simple experiment guidance where appropriate.",
+        "Language Arts Help responses support writing help (thesis, outline suggestions) and can include grammar/spelling tips with examples.",
+        "Frontend displays mode-specific quick prompt chips (e.g., “Explain step-by-step”, “Make a timeline”, “Form a hypothesis”, “Improve my thesis”) that insert text into the input box."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Persist per-user chat history per mode in the backend so that returning to a mode restores the prior conversation for that user (based on Internet Identity principal).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "Make an App That has an AI bot..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When signed in with Internet Identity, messages sent/received are stored per (principal, mode).",
+        "Re-opening the app and selecting a mode reloads the stored conversation for that mode.",
+        "User can clear conversation for the active mode, which removes stored messages for that (principal, mode).",
+        "Anonymous/unauthenticated users can still chat, but history is only kept in-memory on the client until refresh (no backend persistence)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Apply a cohesive “school vibe” visual theme across the app (colors, typography, layout, and components) and keep it consistent across home and chat screens.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "have it be a school vibe to it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "UI uses a consistent school-themed style (e.g., notebook paper, chalkboard accents, or classroom stationery motifs) applied across pages.",
+        "Mode cards visually feel distinct but consistent with the overall theme.",
+        "Chat bubbles, headers, and buttons match the theme and remain readable and accessible."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Add generated static image assets that support the school theme and render them in the UI from frontend/public/assets/generated (do not fetch images from the backend).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "have it be a school vibe to it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and are referenced directly by the frontend.",
+        "At least one generated image is used on the home screen (e.g., header/hero) and at least one is used in the chat UI (e.g., small mascot/icon)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Do not edit files under frontend/src/components/ui or other immutablePaths listed in SYSTEM_CONTEXT; compose those components instead.",
+    "No third-party LLM/AI integrations (no OpenAI/Anthropic or external AI APIs). The “AI bot” must be implemented using on-canister logic (e.g., curated templates/keyword matching) within platform constraints.",
+    "Use English for all user-facing text."
+  ],
+  "nonGoals": [
+    "Real-time messaging (WebSockets/live chat) is out of scope.",
+    "Third-party authentication providers (Google/Facebook/GitHub/Auth0) are out of scope; only Internet Identity is allowed.",
+    "Advanced NLP/LLM-quality responses are out of scope given the no-external-AI constraint."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Chalkboard-style app header banner with subtle classroom doodles (school-header.dim_1600x500.png)",
+      "Friendly school mascot (e.g., pencil/book character) in a clean vector style (school-mascot.dim_512x512.png)",
+      "Seamless notebook paper background texture, light and unobtrusive (notebook-texture.dim_1024x1024.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

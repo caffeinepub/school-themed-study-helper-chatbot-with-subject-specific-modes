@@ -1,0 +1,125 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-05T23:55:36.210Z",
+  "summary": "Diff adds a school-themed home + chat UI with four modes, quick prompts, Internet Identity login, and a Motoko backend with mode types plus some session storage scaffolding. However, several requirements appear incomplete or mismatched: guest chatting is blocked, mode switching inside chat is limited, clear-conversation persistence is not implemented, and backend history persistence across app reopen is not evidenced. Diff also introduces unrequested access-control/admin-token and user profile features.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "User can switch modes from within the app without a full page refresh (e.g., via a mode switcher/menu).",
+      "reason": "App only supports returning to home via a back button; no in-chat mode switcher/menu is evidenced.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/chat/ChatPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "User can clear the current conversation for the active mode (and it should work properly for the active mode).",
+      "reason": "UI has a 'Clear Chat' action, but the hook clears only local state and explicitly notes there is no backend clear method; does not clear stored conversation for authenticated users.",
+      "evidence": [
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/hooks/useChat.ts"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Backend validates mode and message (non-empty), returning a user-friendly error for invalid inputs.",
+      "reason": "Frontend attempts to load history by calling chat with an empty message; this conflicts with the requirement that backend reject empty messages. The backend-side validation behavior is not visible due to truncation, so compliance is not evidenced.",
+      "evidence": [
+        "frontend/src/hooks/useChat.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Persist per-user chat history per mode in the backend so that re-opening the app and selecting a mode reloads the stored conversation for that user.",
+      "reason": "Backend stores history in an in-memory Map without evidence of stable persistence across upgrades/restarts; frontend 'loadHistory' relies on sending an empty message rather than a dedicated history API, and will not work if backend enforces non-empty messages.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useChat.ts"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "User can clear conversation for the active mode, which removes stored messages for that (principal, mode).",
+      "reason": "No backend clear/remove API is shown; frontend clear only resets local state and comments that backend is not cleared.",
+      "evidence": [
+        "frontend/src/hooks/useChat.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Anonymous/unauthenticated users can still chat, but history is only kept in-memory on the client until refresh (no backend persistence).",
+      "reason": "Frontend blocks sending messages when unauthenticated ('Please login to use the chat'), which contradicts the requirement that guests can chat.",
+      "evidence": [
+        "frontend/src/hooks/useChat.ts"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Generated images are placed under frontend/public/assets/generated (do not fetch images from the backend).",
+      "reason": "Frontend references the required generated image paths, but the diff summary does not show the actual image files under frontend/public/assets/generated (some files are omitted due to limits), so placement is not evidenced from the provided diff text.",
+      "evidence": [
+        "frontend/src/components/layout/SchoolLayout.tsx",
+        "frontend/src/components/chat/ChatPage.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Access control / authorization system with admin token initialization for the backend actor.",
+      "reason": "BuildRequest does not request any admin-token-based access control; only Internet Identity is mentioned for user identification and persistence.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/utils/urlParams.ts"
+      ]
+    },
+    {
+      "description": "User profile feature (get/save caller user profile) and a mandatory profile setup modal collecting the user's name.",
+      "reason": "BuildRequest does not request user profiles or prompting for a name; it only requires mode-based chat behavior and history persistence by principal.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/auth/ProfileSetupModal.tsx",
+        "frontend/src/hooks/useUserProfile.ts"
+      ]
+    },
+    {
+      "description": "Guest mode UI badge while simultaneously preventing guest chat.",
+      "reason": "BuildRequest explicitly allows anonymous users to chat (client-only history). The diff adds a 'Guest Mode' indicator but blocks guest chat, which is an unrequested behavioral change beyond the spec.",
+      "evidence": [
+        "frontend/src/components/chat/ChatPage.tsx",
+        "frontend/src/hooks/useChat.ts"
+      ]
+    }
+  ],
+  "confidence": 0.7,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/chat/ChatComposer.tsx",
+    "frontend/src/components/chat/ChatPage.tsx",
+    "frontend/src/components/chat/ChatThread.tsx",
+    "frontend/src/components/chat/QuickPrompts.tsx",
+    "frontend/src/components/layout/SchoolLayout.tsx",
+    "frontend/src/components/modes/modeTypes.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useChat.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useUserProfile.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

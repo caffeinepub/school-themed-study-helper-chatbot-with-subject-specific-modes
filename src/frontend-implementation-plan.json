@@ -1,0 +1,207 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "School-themed study helper chatbot (mode-based) — frontend",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build a school-themed home/landing screen that lets users pick one of four study modes and enter the chat for that mode, with in-app mode switching.",
+      "acceptanceCriteria": [
+        "Home screen shows four clearly labeled mode cards/buttons: Math Help, Social Studies Help, Science Help, Language Arts Help.",
+        "Selecting a mode routes (or transitions) into a chat screen with the chosen mode visibly indicated.",
+        "User can switch modes from within the app without a full page refresh (e.g., via a mode switcher/menu)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main app shell that renders (1) a school-themed home screen with four mode cards and (2) a chat screen for the selected mode; use client-side state (or lightweight routing) so selecting/switching modes transitions without page refresh."
+        },
+        {
+          "path": "frontend/src/components/modes/modeTypes.ts",
+          "operation": "create",
+          "description": "Define frontend-friendly mode metadata (labels, descriptions, helper text) mapped to backend Mode enum values to drive home cards and in-chat mode switcher."
+        },
+        {
+          "path": "frontend/src/components/modes/ModeSelector.tsx",
+          "operation": "create",
+          "description": "Create a reusable ModeSelector component used on the home screen and within the chat screen to switch between Math Help, Social Studies Help, Science Help, and Language Arts Help without a full refresh."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Implement the shared chatbot UI (thread, input, send, loading/error, retry, clear conversation) for all modes.",
+      "acceptanceCriteria": [
+        "Chat view displays messages in chronological order with distinct styling for user vs bot.",
+        "User can type a message and send via button and Enter key.",
+        "While awaiting a response, the UI shows a loading indicator and disables duplicate sends.",
+        "If a request fails, an error message is displayed and the user can retry.",
+        "User can clear the current conversation for the active mode."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/chat/ChatPage.tsx",
+          "operation": "create",
+          "description": "Implement the chat screen UI: message thread (user vs bot bubble styling), input box, send button, Enter-to-send, loading indicator, error banner with retry, and a clear-conversation action; reuse across all modes."
+        },
+        {
+          "path": "frontend/src/components/chat/ChatThread.tsx",
+          "operation": "create",
+          "description": "Render the chronological message list with distinct visual styling for user vs bot messages and optional per-message status (e.g., pending)."
+        },
+        {
+          "path": "frontend/src/components/chat/ChatComposer.tsx",
+          "operation": "create",
+          "description": "Provide the text input + send affordances, including Enter-to-send behavior, disabled state while sending, and integration point for inserting quick prompt text."
+        },
+        {
+          "path": "frontend/src/hooks/useChat.ts",
+          "operation": "create",
+          "description": "Add a hook that uses the existing actor (via useActor) to send chat requests, manage loading/error state, and expose retry/clear helpers for the active mode."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Make each mode feel unique in the frontend with mode-specific quick prompt chips and mode-aware UI copy that complements structured tutoring patterns.",
+      "acceptanceCriteria": [
+        "Math Help responses use a consistent step-by-step structure (e.g., Given/Find, Steps, Final Answer) and encourage showing work.",
+        "Social Studies Help responses use a structure that can include dates/periods, key terms, and cause/effect or compare/contrast where appropriate.",
+        "Science Help responses use a structure that can include definitions, variables, hypothesis/evidence, and simple experiment guidance where appropriate.",
+        "Language Arts Help responses support writing help (thesis, outline suggestions) and can include grammar/spelling tips with examples.",
+        "Frontend displays mode-specific quick prompt chips (e.g., “Explain step-by-step”, “Make a timeline”, “Form a hypothesis”, “Improve my thesis”) that insert text into the input box."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/chat/QuickPrompts.tsx",
+          "operation": "create",
+          "description": "Create mode-specific quick prompt chips for each mode (Math/Social Studies/Science/Language Arts) that insert suggested text into the chat input (without sending immediately)."
+        },
+        {
+          "path": "frontend/src/components/chat/ChatPage.tsx",
+          "operation": "modify",
+          "description": "Wire QuickPrompts into the chat UI so chips are shown per selected mode and clicking a chip inserts text into the composer input; also display clear mode indication in the header."
+        },
+        {
+          "path": "frontend/src/components/modes/modeTypes.ts",
+          "operation": "modify",
+          "description": "Add per-mode quick prompt definitions and mode-specific helper copy (e.g., suggested structure names) used by QuickPrompts and the chat header."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Support Internet Identity sign-in state in the UI and align chat history behavior: authenticated users rely on backend persistence per mode; anonymous users keep in-memory-only history.",
+      "acceptanceCriteria": [
+        "When signed in with Internet Identity, messages sent/received are stored per (principal, mode).",
+        "Re-opening the app and selecting a mode reloads the stored conversation for that mode.",
+        "User can clear conversation for the active mode, which removes stored messages for that (principal, mode).",
+        "Anonymous/unauthenticated users can still chat, but history is only kept in-memory on the client until refresh (no backend persistence)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Implement a Login/Logout button using the existing Internet Identity hooks (useInternetIdentity) and React Query cache clearing on logout. Use the selected 'authorization' component guidance for authentication UX. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupModal.tsx",
+          "operation": "create",
+          "description": "Add a first-login profile setup modal that asks for a name and calls getCallerUserProfile/saveCallerUserProfile; avoid principal display and prevent modal flash per the selected 'authorization' component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useUserProfile.ts",
+          "operation": "create",
+          "description": "Create React Query hooks to fetch/save the caller user profile (getCallerUserProfile/saveCallerUserProfile) with proper enabled/isFetched handling as described by the selected 'authorization' component guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/chat/ChatPage.tsx",
+          "operation": "modify",
+          "description": "Update the chat screen to (a) show authenticated vs guest status (without showing principal), (b) load and display backend-provided history for authenticated users when available, and (c) keep guest history in component state only (no localStorage persistence)."
+        },
+        {
+          "path": "frontend/src/hooks/useChat.ts",
+          "operation": "modify",
+          "description": "Implement dual behavior: for authenticated users, always render from backend-provided history returned by chat responses (and trigger a lightweight history refresh when entering a mode); for guests, store messages in-memory only. Implement clear-conversation UI behavior: clear in-memory for guests; for authenticated users, send a clear command consistent with backend expectations (e.g., a dedicated clear instruction message) and then refresh visible history."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire LoginButton and ProfileSetupModal into the app shell so users can sign in/out and set a display name; ensure logout clears cached app data and returns UI to a safe state (e.g., clears guest in-memory chats)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Apply a cohesive school-themed visual design across home and chat (colors, typography, layout, and consistent components).",
+      "acceptanceCriteria": [
+        "UI uses a consistent school-themed style (e.g., notebook paper, chalkboard accents, or classroom stationery motifs) applied across pages.",
+        "Mode cards visually feel distinct but consistent with the overall theme.",
+        "Chat bubbles, headers, and buttons match the theme and remain readable and accessible."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create global styling that establishes a cohesive 'school vibe' (e.g., notebook-paper background treatment, chalkboard accent colors via CSS variables) and ensures readable contrast for chat bubbles, headers, and buttons across the app."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend the theme tokens (colors/typography/shadows as needed) to support the school-themed palette and consistent component styling across home and chat, without changing immutable shadcn/ui component files."
+        },
+        {
+          "path": "frontend/src/components/layout/SchoolLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout wrapper (header + content container) that applies the consistent school-themed framing across home and chat screens (e.g., banner area, consistent spacing, background handling)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap home and chat screens with SchoolLayout to ensure theme consistency, and ensure mode cards and chat UI elements follow the established design system (composing existing UI components rather than editing immutable paths)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Add required generated school-themed images as static assets and render them on home and chat screens directly from frontend/public/assets/generated.",
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and are referenced directly by the frontend.",
+        "At least one generated image is used on the home screen (e.g., header/hero) and at least one is used in the chat UI (e.g., small mascot/icon)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/school-header.dim_1600x500.png",
+          "operation": "create",
+          "description": "Add the generated Chalkboard-style app header banner image asset at the required path for direct frontend usage."
+        },
+        {
+          "path": "frontend/public/assets/generated/school-mascot.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated friendly school mascot image asset at the required path for direct frontend usage."
+        },
+        {
+          "path": "frontend/public/assets/generated/notebook-texture.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated seamless notebook paper background texture image asset at the required path for direct frontend usage."
+        },
+        {
+          "path": "frontend/src/components/layout/SchoolLayout.tsx",
+          "operation": "modify",
+          "description": "Render the header banner image from frontend/public/assets/generated/school-header.dim_1600x500.png in the layout header area, and apply the notebook texture from frontend/public/assets/generated/notebook-texture.dim_1024x1024.png as a subtle page background treatment."
+        },
+        {
+          "path": "frontend/src/components/chat/ChatPage.tsx",
+          "operation": "modify",
+          "description": "Render the mascot image from frontend/public/assets/generated/school-mascot.dim_512x512.png in the chat UI (e.g., header icon/assistant avatar) to reinforce the school theme without fetching images from the backend."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Ensure at least one generated image is visible on the home screen (use the SchoolLayout banner and/or notebook texture) and that the chat screen includes the mascot, all referenced as static frontend assets."
+        }
+      ]
+    }
+  ]
+}

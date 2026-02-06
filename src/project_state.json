@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "App with an AI chatbot offering distinct subject-specific modes (Math, Social Studies, Science, Language Arts) with a school-themed vibe.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Chalkboard-style app header banner with subtle classroom doodles (school-header.dim_1600x500.png)\n- Friendly school mascot (e.g., pencil/book character) in a clean vector style (school-mascot.dim_512x512.png)\n- Seamless notebook paper background texture, light and unobtrusive (notebook-texture.dim_1024x1024.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-a-school-themed-landing-home-experience-that-lets-the-user-choose-one-of-four-study-modes-math-help-social-studies-help-science-help-and-language-arts-help-and-then-enter-the-chatbot-interface-for-the-selected-mode",
+      "title": "Create a school-themed landing/home experience that lets the user choose one of four study modes: Math Help, Social Studies Help, Science Help, and Language Arts Help, and then enter the chatbot interface for the selected mode.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-chatbot-ui-with-a-message-thread-user-text-input-send-action-and-basic-chat-affordances-loading-state-error-state-clear-conversation-that-works-for-all-four-modes",
+      "title": "Implement a chatbot UI with a message thread, user text input, send action, and basic chat affordances (loading state, error state, clear conversation) that works for all four modes.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-each-mode-s-bot-behavior-unique-by-providing-mode-specific-tutoring-patterns-and-structured-outputs-math-help-step-by-step-problem-solving-format-social-studies-help-timeline-causes-effects-and-key-terms-format-science-help-hypothesis-evidence-conclusion-format-and-safety-reminders-language-arts-help-thesis-outline-grammar-and-revision-checklist-format",
+      "title": "Make each mode’s bot behavior unique by providing mode-specific tutoring patterns and structured outputs: Math Help (step-by-step problem solving format), Social Studies Help (timeline/causes-effects and key terms format), Science Help (hypothesis/evidence/conclusion format and safety reminders), Language Arts Help (thesis/outline/grammar and revision checklist format).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-per-user-chat-history-per-mode-in-the-backend-so-that-returning-to-a-mode-restores-the-prior-conversation-for-that-user-based-on-internet-identity-principal",
+      "title": "Persist per-user chat history per mode in the backend so that returning to a mode restores the prior conversation for that user (based on Internet Identity principal).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-school-vibe-visual-theme-across-the-app-colors-typography-layout-and-components-and-keep-it-consistent-across-home-and-chat-screens",
+      "title": "Apply a cohesive “school vibe” visual theme across the app (colors, typography, layout, and components) and keep it consistent across home and chat screens.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-image-assets-that-support-the-school-theme-and-render-them-in-the-ui-from-frontend-public-assets-generated-do-not-fetch-images-from-the-backend",
+      "title": "Add generated static image assets that support the school theme and render them in the UI from frontend/public/assets/generated (do not fetch images from the backend).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "AI chatbot with distinct subject modes: Math Help, Social Studies Help, Science Help, Language Arts Help (each tailored to its subject).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "School-themed look and feel (\"school vibe\") for the app UI/UX.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add backend support for subject-specific chatbot responses by implementing a single Motoko canister API that accepts: selected mode, user message text, and (optionally) conversation context; returns a text response tailored to that mode.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "School-themed study helper chatbot with subject-specific modes",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
